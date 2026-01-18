@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Smart Meter 2.0</string>
+    <string name="short_app_name">2.0</string>
 </resources>
