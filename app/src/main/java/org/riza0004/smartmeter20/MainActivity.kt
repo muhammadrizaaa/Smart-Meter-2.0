@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import org.riza0004.smartmeter20.ui.screen.SetupNavGraph
+import org.riza0004.smartmeter20.navigation.SetupNavGraph
 import org.riza0004.smartmeter20.ui.theme.SmartMeter20Theme
 
 class MainActivity : ComponentActivity() {

@@ -1,11 +1,11 @@
-package org.riza0004.smartmeter20.ui.screen
+package org.riza0004.smartmeter20.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import org.riza0004.smartmeter20.navigation.Screen
+import org.riza0004.smartmeter20.ui.screen.HomeScreen
 
 @Composable
 fun SetupNavGraph(navHostController: NavHostController = rememberNavController()){

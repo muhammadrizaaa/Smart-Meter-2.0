@@ -1,5 +1,6 @@
 package org.riza0004.smartmeter20.ui.component
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -54,7 +55,7 @@ fun UsageReport(
         ) {
             Text(
                 text = stringResource(R.string.usage_report),
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.headlineSmall
             )
             Icon(
                 painter = painterResource(R.drawable.baseline_keyboard_arrow_right_24),
@@ -129,32 +130,33 @@ fun UsageReport(
 
 @Composable
 fun LineChart(
-    modifier: Modifier = Modifier
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier.height(150.dp)
 ){
     val pointsData: List<Point> = listOf(
         Point(0f, 40f),
-        Point(1f, 90f),
-        Point(2f, 0f),
-        Point(3f, 60f),
+        Point(1f, 100f),
+        Point(2f, 25f),
+        Point(3f, 75f),
         Point(4f, 10f)
     )
     val xAxisData = AxisData.Builder()
-        .axisStepSize(100.dp)
+        .axisStepSize(75.dp)
         .backgroundColor(colorResource(R.color.light_main))
-        .steps(pointsData.size-1)
+        .steps(pointsData.size - 1)
         .labelData { i -> i.toString() }
         .labelAndAxisLinePadding(16.dp)
         .build()
 
+    val maxY = pointsData.maxOf { it.y }
     val steps = 4
+    val yScale = maxY/steps
 
     val yAxisData = AxisData.Builder()
         .steps(steps)
         .backgroundColor(colorResource(R.color.light_main))
-        .labelAndAxisLinePadding(16.dp)
+        .labelAndAxisLinePadding(24.dp)
         .labelData { i ->
-            val yScale = 100 / steps
-            ((i * yScale).toString())
+            (i * yScale).toInt().toString()
         }.build()
 
     val lineChartData = LineChartData(
@@ -176,7 +178,7 @@ fun LineChart(
         backgroundColor = colorResource(R.color.light_main)
     )
     LineChart(
-        modifier = modifier.fillMaxWidth().height(150.dp),
+        modifier = modifier.fillMaxWidth(),
         lineChartData = lineChartData
     )
 }

@@ -2,9 +2,13 @@ package org.riza0004.smartmeter20.ui.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -23,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import org.riza0004.smartmeter20.R
+import org.riza0004.smartmeter20.ui.component.UsageReport
 import org.riza0004.smartmeter20.ui.theme.SmartMeter20Theme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -64,7 +69,18 @@ fun HomeScreen(navHostController: NavHostController){
             )
         }
     ) {innerPadding->
-        Box(modifier = Modifier.padding(innerPadding))
+        Box(
+            modifier = Modifier.fillMaxSize().padding(innerPadding)
+        ){
+            Column(
+                modifier = Modifier.wrapContentSize()
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp)
+                    .padding(top = 16.dp)
+            ) {
+                UsageReport()
+            }
+        }
     }
 }
 
