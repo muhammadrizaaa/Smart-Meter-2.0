@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import org.riza0004.smartmeter20.R
+import org.riza0004.smartmeter20.ui.component.GroupList
 import org.riza0004.smartmeter20.ui.component.UsageReport
 import org.riza0004.smartmeter20.ui.theme.SmartMeter20Theme
 
@@ -76,9 +77,11 @@ fun HomeScreen(navHostController: NavHostController){
                 modifier = Modifier.wrapContentSize()
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp)
-                    .padding(top = 16.dp)
+                    .padding(top = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 UsageReport()
+                GroupList()
             }
         }
     }

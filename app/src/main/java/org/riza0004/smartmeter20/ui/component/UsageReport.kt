@@ -9,10 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -61,7 +57,7 @@ fun UsageReport(
                 painter = painterResource(R.drawable.baseline_keyboard_arrow_right_24),
                 contentDescription = stringResource(R.string.show_more),
                 tint = colorResource(R.color.black),
-                modifier = Modifier.size(16.dp)
+                modifier = Modifier.size(24.dp)
             )
         }
         Row(
@@ -84,30 +80,7 @@ fun UsageReport(
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
-            Card(
-                modifier = Modifier.wrapContentSize(),
-                colors = CardDefaults.cardColors(
-                    containerColor = colorResource(R.color.light_main),
-                    contentColor = colorResource(R.color.black)
-                ),
-                shape = RoundedCornerShape(8.dp)
-            ) {
-                Row(
-                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 4.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = stringResource(R.string.daily),
-                        style = MaterialTheme.typography.labelMedium
-                    )
-                    Icon(
-                        painter = painterResource(R.drawable.baseline_keyboard_arrow_down_24),
-                        contentDescription = stringResource(R.string.show_more),
-                        modifier = Modifier.size(16.dp)
-                    )
-                }
-            }
+            Dropdown()
         }
         Row(
             modifier = Modifier.fillMaxWidth(),
