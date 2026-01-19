@@ -1,5 +1,15 @@
 <resources>
     <string name="app_name">Smart Meter 2.0</string>
     <string name="short_app_name">2.0</string>
+    <string name="short_app_name_w_v">V2</string>
+
+    <string name="usage_report">Laporan Penggunaan</string>
+    <string name="energy">Energi: %1$,f Kwh</string>
+    <string name="power">Power: %1$d W</string>
+    <string name="outcome">Pengeluaran: RP. %1$,d</string>
+    <string name="daily">Harian</string>
+    <string name="monthly">Bulanan</string>
+
     <string name="profile">Profile</string>
+    <string name="show_more">Tunjukan lebih</string>
 </resources>
