@@ -13,6 +13,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -39,13 +43,22 @@ import org.riza0004.smartmeter20.ui.theme.SmartMeter20Theme
 fun UsageReport(
     modifier: Modifier = Modifier
 ){
+    val data = listOf(
+        "Harian",
+        "Bulanan",
+        "Per-jam"
+    )
+    var selectedData by remember { mutableStateOf(data[0]) }
+    var isExpanded by remember { mutableStateOf(false) }
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(4.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 4.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -66,7 +79,9 @@ fun UsageReport(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth().weight(1f),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Start
             ) {
@@ -80,7 +95,19 @@ fun UsageReport(
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
-            Dropdown()
+            Dropdown(
+//                modifier = TODO(),
+                isExpanded = isExpanded,
+                data = data,
+                onClick = { isExpanded = !isExpanded },
+                onCLose = {
+                    isExpanded = false
+                },
+                onSelect = {
+                    selectedData = it
+                },
+                selectedData = selectedData
+            )
         }
         Row(
             modifier = Modifier.fillMaxWidth(),

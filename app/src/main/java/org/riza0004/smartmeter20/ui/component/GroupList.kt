@@ -17,6 +17,10 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -31,6 +35,12 @@ import org.riza0004.smartmeter20.ui.theme.SmartMeter20Theme
 fun GroupList(
     modifier: Modifier = Modifier
 ){
+    val data = listOf(
+        "Nama A-Z",
+        "Nama Z-A"
+    )
+    var selectedData by remember { mutableStateOf(data[0]) }
+    var isExpanded by remember { mutableStateOf(false) }
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(4.dp),
@@ -56,7 +66,20 @@ fun GroupList(
                     text = "${stringResource(R.string.sort_by)}: ",
                     style = MaterialTheme.typography.bodyMedium
                 )
-                Dropdown()
+                Dropdown(
+                    selectedData = selectedData,
+                    isExpanded = isExpanded,
+                    data = data,
+                    onClick = {
+                        isExpanded = !isExpanded
+                    },
+                    onCLose = {
+                        isExpanded = false
+                    },
+                    onSelect = {
+                        selectedData = it
+                    }
+                )
             }
         }
         LazyVerticalGrid(
@@ -115,6 +138,7 @@ fun GroupGridItem(
                         uncheckedIconColor = colorResource(R.color.white),
                         uncheckedBorderColor = colorResource(R.color.grey),
                         uncheckedThumbColor = colorResource(R.color.white),
+                        checkedThumbColor = colorResource(R.color.white)
                     ),
                     modifier = Modifier.width(40.dp).height(26.dp)
                 )

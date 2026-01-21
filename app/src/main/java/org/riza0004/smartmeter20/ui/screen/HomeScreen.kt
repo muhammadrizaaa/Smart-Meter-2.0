@@ -35,6 +35,7 @@ import org.riza0004.smartmeter20.ui.theme.SmartMeter20Theme
 @Composable
 fun HomeScreen(navHostController: NavHostController){
     Scaffold(
+        containerColor = colorResource(R.color.white),
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
