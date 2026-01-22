@@ -14,7 +14,6 @@
     <string name="group_list">List Grup</string>
     <string name="sort_by">Urutkan Dari</string>
 
-    <string name="profile">Profile</string>
     <string name="show_more">Tunjukan lebih</string>
 
     <string name="login">Masuk</string>
@@ -23,4 +22,8 @@
     <string name="add_group">Tambah Grup</string>
     <string name="name">Name</string>
     <string name="close">Tutup</string>
+
+    <string name="profile">Profile</string>
+    <string name="about_this_app">Profile</string>
+    <string name="logout">Keluar</string>
 </resources>

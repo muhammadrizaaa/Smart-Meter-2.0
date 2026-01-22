@@ -38,8 +38,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.firebase.ui.auth.AuthUI
 import org.riza0004.smartmeter20.R
+import org.riza0004.smartmeter20.navigation.Screen
 import org.riza0004.smartmeter20.ui.component.CustomFloatingActionButton
 import org.riza0004.smartmeter20.ui.component.DialogAddGroup
 import org.riza0004.smartmeter20.ui.component.GroupList
@@ -72,7 +72,7 @@ fun HomeScreen(navHostController: NavHostController){
                     ),
                     title = {
                         Row(
-                            modifier = Modifier.padding(vertical = 16.dp),
+                            modifier = Modifier.padding(vertical = 8.dp),
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
@@ -92,10 +92,11 @@ fun HomeScreen(navHostController: NavHostController){
                     actions = {
                         Box(
                             modifier = Modifier.padding(end = 16.dp).size(32.dp)
-                                .clickable(onClick = {
-                                    AuthUI.getInstance().signOut(context)
-                                })
                                 .clip(CircleShape)
+                                .clickable(onClick = {
+                                    navHostController.navigate(Screen.ProfileScreen.route)
+//                                    AuthUI.getInstance().signOut(context)
+                                })
                         ) {
                             AsyncImage(
                                 model = ImageRequest.Builder(context)
