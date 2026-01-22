@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -29,17 +30,19 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.riza0004.smartmeter20.R
+import org.riza0004.smartmeter20.dataclass.testData
 import org.riza0004.smartmeter20.ui.theme.SmartMeter20Theme
 
 @Composable
 fun GroupList(
     modifier: Modifier = Modifier
 ){
-    val data = listOf(
+    val data = testData
+    val dataDropdown = listOf(
         "Nama A-Z",
         "Nama Z-A"
     )
-    var selectedData by remember { mutableStateOf(data[0]) }
+    var selectedData by remember { mutableStateOf(dataDropdown[0]) }
     var isExpanded by remember { mutableStateOf(false) }
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -69,7 +72,7 @@ fun GroupList(
                 Dropdown(
                     selectedData = selectedData,
                     isExpanded = isExpanded,
-                    data = data,
+                    data = dataDropdown,
                     onClick = {
                         isExpanded = !isExpanded
                     },
@@ -87,10 +90,21 @@ fun GroupList(
             verticalArrangement = Arrangement.spacedBy(4.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(4){it->
+            items(data){it->
                 GroupGridItem(
                     modifier = Modifier.fillMaxWidth().weight(0.5f),
-                    isOn = it%2 == 0
+                    isOn = it.isOn,
+                    name = it.name,
+                    items = it.items.size,
+                    power = it.power,
+                    energy = it.energy,
+                    onChecked = {
+//                        val updatedGroup = it.copy(
+//                            items = it.items.map {
+//                                it.copy(isOn = !it.isOn)
+//                            }
+//                        )
+                    }
                 )
             }
         }
@@ -100,7 +114,12 @@ fun GroupList(
 @Composable
 fun GroupGridItem(
     modifier: Modifier = Modifier,
-    isOn: Boolean
+    name: String,
+    items: Int,
+    power: Float,
+    energy: Float,
+    isOn: Boolean,
+    onChecked: () -> Unit
     ){
     Card(
         modifier = modifier,
@@ -115,7 +134,7 @@ fun GroupGridItem(
             horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = "group 1",
+                text = name,
                 style = MaterialTheme.typography.titleLarge,
                 overflow = TextOverflow.Ellipsis
             )
@@ -125,12 +144,14 @@ fun GroupGridItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "2 metering",
+                    text = "$items metering",
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Switch(
                     checked = isOn,
-                    onCheckedChange = {},
+                    onCheckedChange = {
+                        onChecked()
+                    },
                     colors = SwitchDefaults.colors(
                         checkedIconColor = colorResource(R.color.white),
                         checkedTrackColor = colorResource(R.color.main),
@@ -148,11 +169,11 @@ fun GroupGridItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "0.016 Kwh",
+                    text = "$energy Kwh",
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Text(
-                    text = "16 W",
+                    text = "$power W",
                     style = MaterialTheme.typography.bodyMedium
                 )
             }

@@ -7,27 +7,27 @@ val testData = listOf(
             SmartMeterDataClass(
                 nama = "Smart Meter 1",
                 isOn = false,
-                energy = 25.5F,
+                energy = 0.0025F,
                 current = 0.155f,
-                power = 0.25f,
+                power = 25.5f,
                 voltage = 200f,
                 histories = emptyList()
             ),
             SmartMeterDataClass(
                 nama = "Smart Meter 2",
                 isOn = false,
-                energy = 30F,
+                energy = 0.003F,
                 current = 0.335f,
-                power = 0.30f,
+                power = 30f,
                 voltage = 200f,
                 histories = emptyList()
             ),
             SmartMeterDataClass(
                 nama = "Smart Meter 3",
                 isOn = false,
-                energy = 50.5F,
+                energy = 0.05F,
                 current = 0.41f,
-                power = 0.5f,
+                power = 5f,
                 voltage = 200f,
                 histories = emptyList()
             ),
@@ -39,27 +39,27 @@ val testData = listOf(
             SmartMeterDataClass(
                 nama = "Smart Meter 1",
                 isOn = false,
-                energy = 25.5F,
+                energy = 0.0025F,
                 current = 0.155f,
-                power = 0.25f,
+                power = 25.5f,
                 voltage = 200f,
                 histories = emptyList()
             ),
             SmartMeterDataClass(
                 nama = "Smart Meter 2",
                 isOn = false,
-                energy = 30F,
+                energy = 0.003F,
                 current = 0.335f,
-                power = 0.30f,
+                power = 30f,
                 voltage = 200f,
                 histories = emptyList()
             ),
             SmartMeterDataClass(
                 nama = "Smart Meter 3",
                 isOn = false,
-                energy = 50.5F,
+                energy = 0.05F,
                 current = 0.41f,
-                power = 0.5f,
+                power = 5f,
                 voltage = 200f,
                 histories = emptyList()
             ),

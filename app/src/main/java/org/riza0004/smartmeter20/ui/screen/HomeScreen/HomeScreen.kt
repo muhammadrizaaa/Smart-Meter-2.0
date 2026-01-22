@@ -1,4 +1,4 @@
-package org.riza0004.smartmeter20.ui.screen
+package org.riza0004.smartmeter20.ui.screen.HomeScreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
