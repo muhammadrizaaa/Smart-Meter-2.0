@@ -19,4 +19,8 @@
 
     <string name="login">Masuk</string>
     <string name="version">V %1$s</string>
+
+    <string name="add_group">Tambah Grup</string>
+    <string name="name">Name</string>
+    <string name="close">Tutup</string>
 </resources>

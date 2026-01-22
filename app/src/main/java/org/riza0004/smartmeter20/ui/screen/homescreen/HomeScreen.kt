@@ -21,6 +21,9 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,6 +41,7 @@ import coil.request.ImageRequest
 import com.firebase.ui.auth.AuthUI
 import org.riza0004.smartmeter20.R
 import org.riza0004.smartmeter20.ui.component.CustomFloatingActionButton
+import org.riza0004.smartmeter20.ui.component.DialogAddGroup
 import org.riza0004.smartmeter20.ui.component.GroupList
 import org.riza0004.smartmeter20.ui.component.UsageReport
 import org.riza0004.smartmeter20.ui.screen.auth.AuthenticationScreen
@@ -49,6 +53,7 @@ fun HomeScreen(navHostController: NavHostController){
     val viewModel: HomeViewModel = viewModel()
     val userFlow by viewModel.userFlow.collectAsState()
     val context = LocalContext.current
+    var dialogAddGroupIsOpen by remember { mutableStateOf(false) }
     if(userFlow == null){
         AuthenticationScreen()
     }
@@ -56,7 +61,7 @@ fun HomeScreen(navHostController: NavHostController){
         Scaffold(
             floatingActionButton = {
                 CustomFloatingActionButton {
-
+                    dialogAddGroupIsOpen = true
                 }
             },
             containerColor = colorResource(R.color.white),
@@ -118,6 +123,11 @@ fun HomeScreen(navHostController: NavHostController){
                     UsageReport()
                     GroupList()
                 }
+            }
+            if(dialogAddGroupIsOpen){
+                DialogAddGroup(
+                    onDismiss = {dialogAddGroupIsOpen = false}
+                )
             }
         }
     }
