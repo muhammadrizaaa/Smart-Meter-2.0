@@ -2,6 +2,7 @@
     <string name="app_name">Smart Meter 2.0</string>
     <string name="short_app_name">2.0</string>
     <string name="short_app_name_w_v">V2</string>
+    <string name="add">Tambah</string>
 
     <string name="usage_report">Laporan Penggunaan</string>
     <string name="energy">Energi: %1$.4f Kwh</string>

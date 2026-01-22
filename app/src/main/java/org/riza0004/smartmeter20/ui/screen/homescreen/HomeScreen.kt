@@ -37,6 +37,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.firebase.ui.auth.AuthUI
 import org.riza0004.smartmeter20.R
+import org.riza0004.smartmeter20.ui.component.CustomFloatingActionButton
 import org.riza0004.smartmeter20.ui.component.GroupList
 import org.riza0004.smartmeter20.ui.component.UsageReport
 import org.riza0004.smartmeter20.ui.screen.auth.AuthenticationScreen
@@ -53,6 +54,11 @@ fun HomeScreen(navHostController: NavHostController){
     }
     userFlow?.let {
         Scaffold(
+            floatingActionButton = {
+                CustomFloatingActionButton {
+
+                }
+            },
             containerColor = colorResource(R.color.white),
             topBar = {
                 TopAppBar(
