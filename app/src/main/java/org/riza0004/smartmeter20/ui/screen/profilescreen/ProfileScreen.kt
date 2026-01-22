@@ -1,12 +1,16 @@
 package org.riza0004.smartmeter20.ui.screen.profilescreen
 
+import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -19,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,8 +41,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.firebase.ui.auth.AuthUI
 import org.riza0004.smartmeter20.R
 import org.riza0004.smartmeter20.navigation.Screen
+import org.riza0004.smartmeter20.ui.component.CustomTextField
+import org.riza0004.smartmeter20.ui.component.CustomTextIconButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,10 +58,12 @@ fun ProfileScreen(
     var showEmail by remember { mutableStateOf(false) }
     var name by remember { mutableStateOf("") }
     if(user == null){
-        navHostController.navigate(Screen.HomeScreen)
+        navHostController.navigate(Screen.HomeScreen.route)
     }
     user?.let {
-        name = "${it.displayName}"
+        LaunchedEffect(true) {
+            name = "${it.displayName}"
+        }
         Scaffold(
             containerColor = colorResource(R.color.white),
             topBar = {
@@ -99,7 +109,6 @@ fun ProfileScreen(
                         .size(92.dp)
                         .clip(CircleShape)
                         .clickable(onClick = {
-//                                    AuthUI.getInstance().signOut(context)
                         })
                 ) {
                     AsyncImage(
@@ -133,6 +142,46 @@ fun ProfileScreen(
                     }
                 }
 
+                CustomTextField(
+                    value = name,
+                    onValChange = { value->
+                        name = value
+                    }
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                CustomTextIconButton(
+                    text = stringResource(R.string.usage_report),
+                    icon = painterResource(R.drawable.baseline_keyboard_arrow_right_24),
+                    modifier = Modifier.fillMaxWidth(),
+                    containerColor = colorResource(R.color.light_main),
+                    contentColor = colorResource(R.color.black),
+                    onClick = {
+
+                    },
+                )
+                CustomTextIconButton(
+                    text = stringResource(R.string.about_this_app),
+                    icon = painterResource(R.drawable.baseline_keyboard_arrow_right_24),
+                    modifier = Modifier.fillMaxWidth(),
+                    containerColor = colorResource(R.color.light_main),
+                    contentColor = colorResource(R.color.black),
+                    onClick = {
+
+                    },
+                )
+                val logoutText = stringResource(R.string.logout)
+                CustomTextIconButton(
+                    text = stringResource(R.string.logout),
+                    icon = painterResource(R.drawable.baseline_keyboard_arrow_right_24),
+                    modifier = Modifier.fillMaxWidth(),
+                    containerColor = colorResource(R.color.white),
+                    contentColor = colorResource(R.color.red_danger),
+                    border = BorderStroke(2.dp, colorResource(R.color.red_danger)),
+                    onClick = {
+                        AuthUI.getInstance().signOut(context)
+                        Toast.makeText(context, logoutText, Toast.LENGTH_SHORT).show()
+                    },
+                )
             }
         }
     }

@@ -18,7 +18,7 @@ fun CustomTextButton(
     contentColor: Color,
     border: BorderStroke? = null,
     text: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ){
     TextButton(
         onClick = {onClick()},
