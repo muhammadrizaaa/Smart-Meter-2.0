@@ -1,5 +1,7 @@
 package org.riza0004.smartmeter20.ui.screen.auth
 
+import android.content.Intent
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,18 +20,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
+import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import org.riza0004.smartmeter20.R
-import org.riza0004.smartmeter20.navigation.Screen
-import org.riza0004.smartmeter20.ui.theme.SmartMeter20Theme
 
 @Composable
-fun AuthenticationScreen(
-    navHostController: NavHostController
-){
+fun AuthenticationScreen(){
+    val contract = FirebaseAuthUIActivityResultContract()
+    val launcher = rememberLauncherForActivityResult(contract) { }
     Scaffold(
         containerColor = colorResource(R.color.main_background)
     ) { innerPadding ->
@@ -52,7 +51,7 @@ fun AuthenticationScreen(
             TextButton(
                 modifier = Modifier.padding(top = 86.dp),
                 onClick = {
-                    navHostController.navigate(Screen.HomeScreen.route)
+                    launcher.launch(getSignInIntent())
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = colorResource(R.color.light_main),
@@ -75,10 +74,10 @@ fun AuthenticationScreen(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun AuthScreenPreview() {
-    SmartMeter20Theme {
-        AuthenticationScreen(rememberNavController())
-    }
+private fun getSignInIntent(): Intent{
+    return AuthUI.getInstance()
+        .createSignInIntentBuilder()
+        .setAvailableProviders(
+            arrayListOf(AuthUI.IdpConfig.GoogleBuilder().build())
+        ).build()
 }
