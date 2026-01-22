@@ -24,6 +24,8 @@
     <string name="close">Tutup</string>
 
     <string name="profile">Profile</string>
+    <string name="show">Tunjukan</string>
+    <string name="hide">sembunyikan</string>
     <string name="about_this_app">Profile</string>
     <string name="logout">Keluar</string>
 </resources>
