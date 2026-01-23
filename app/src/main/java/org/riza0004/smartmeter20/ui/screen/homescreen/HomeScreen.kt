@@ -19,7 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,33 +30,37 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.google.firebase.auth.FirebaseUser
 import org.riza0004.smartmeter20.R
 import org.riza0004.smartmeter20.navigation.Screen
-import org.riza0004.smartmeter20.ui.component.button.CustomFloatingActionButton
-import org.riza0004.smartmeter20.ui.component.dialog.DialogAddGroup
 import org.riza0004.smartmeter20.ui.component.GroupList
 import org.riza0004.smartmeter20.ui.component.UsageReport
+import org.riza0004.smartmeter20.ui.component.button.CustomFloatingActionButton
+import org.riza0004.smartmeter20.ui.component.dialog.DialogAddGroup
 import org.riza0004.smartmeter20.ui.screen.auth.AuthenticationScreen
-import org.riza0004.smartmeter20.ui.theme.SmartMeter20Theme
+import org.riza0004.smartmeter20.util.ViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navHostController: NavHostController){
-    val viewModel: HomeViewModel = viewModel()
-    val userFlow by viewModel.userFlow.collectAsState()
-    val context = LocalContext.current
-    var dialogAddGroupIsOpen by remember { mutableStateOf(false) }
+fun HomeScreen(
+    navHostController: NavHostController,
+    userFlow: FirebaseUser?
+){
     if(userFlow == null){
         AuthenticationScreen()
     }
     userFlow?.let {
+        val factory = ViewModelFactory(userFlow)
+        val viewModel: HomeViewModel = viewModel(
+            factory = factory
+        )
+        val context = LocalContext.current
+        var dialogAddGroupIsOpen by remember { mutableStateOf(false) }
         Scaffold(
             floatingActionButton = {
                 CustomFloatingActionButton {
@@ -95,7 +98,6 @@ fun HomeScreen(navHostController: NavHostController){
                                 .clip(CircleShape)
                                 .clickable(onClick = {
                                     navHostController.navigate(Screen.ProfileScreen.route)
-//                                    AuthUI.getInstance().signOut(context)
                                 })
                         ) {
                             AsyncImage(
@@ -122,23 +124,19 @@ fun HomeScreen(navHostController: NavHostController){
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     UsageReport()
-                    GroupList()
+                    GroupList(
+                        data = viewModel.data
+                    )
                 }
             }
             if(dialogAddGroupIsOpen){
                 DialogAddGroup(
-                    onDismiss = {dialogAddGroupIsOpen = false}
+                    onDismiss = {dialogAddGroupIsOpen = false},
+                    onConfirm = { name->
+                        viewModel.insertGroup(name)
+                    }
                 )
             }
         }
-    }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun HomeScreenPreview() {
-    SmartMeter20Theme {
-        HomeScreen(rememberNavController())
     }
 }
