@@ -31,7 +31,8 @@ import org.riza0004.smartmeter20.ui.component.textfield.CustomTextField
 
 @Composable
 fun DialogAddGroup(
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    onConfirm: (String) -> Unit
 ){
     var name by remember { mutableStateOf("") }
     Dialog(
@@ -81,6 +82,7 @@ fun DialogAddGroup(
                         text = stringResource(R.string.add),
                         enabled = name.isNotBlank()
                     ) {
+                        onConfirm(name)
                         onDismiss()
                     }
                 }

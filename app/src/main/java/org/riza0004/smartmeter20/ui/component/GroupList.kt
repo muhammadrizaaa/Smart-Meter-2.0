@@ -27,17 +27,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.riza0004.smartmeter20.R
-import org.riza0004.smartmeter20.dataclass.testData
-import org.riza0004.smartmeter20.ui.theme.SmartMeter20Theme
+import org.riza0004.smartmeter20.dataclass.GroupModel
 
 @Composable
 fun GroupList(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    data: List<GroupModel>
 ){
-    val data = testData
     val dataDropdown = listOf(
         "Nama A-Z",
         "Nama Z-A"
@@ -93,11 +91,11 @@ fun GroupList(
             items(data){it->
                 GroupGridItem(
                     modifier = Modifier.fillMaxWidth().weight(0.5f),
-                    isOn = it.isOn,
+                    isOn = false,
                     name = it.name,
-                    items = it.items.size,
-                    power = it.power,
-                    energy = it.energy,
+                    items = 0,
+                    power = 0F,
+                    energy = 0F,
                     onChecked = {
 //                        val updatedGroup = it.copy(
 //                            items = it.items.map {
@@ -178,13 +176,5 @@ fun GroupGridItem(
                 )
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GroupListPreview() {
-    SmartMeter20Theme {
-        GroupList()
     }
 }

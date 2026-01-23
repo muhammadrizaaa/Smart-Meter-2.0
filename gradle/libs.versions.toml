@@ -37,6 +37,7 @@ firebase-bom = {module = "com.google.firebase:firebase-bom", version.ref = "fire
 firebase-ui-auth = {module = "com.firebaseui:firebase-ui-auth", version.ref = "firebaseUiAuth"}
 coil-compose = {module = "io.coil-kt:coil-compose", version.ref = "coilCompose"}
 androidx-lifecycle-viewmodel-compose = {group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycleVMCompose"}
+firebase-firestore = {module = "com.google.firebase:firebase-firestore"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
