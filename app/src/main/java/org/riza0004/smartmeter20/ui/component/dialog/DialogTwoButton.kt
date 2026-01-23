@@ -1,4 +1,4 @@
-package org.riza0004.smartmeter20.ui.component
+package org.riza0004.smartmeter20.ui.component.dialog
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -15,25 +15,33 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import org.riza0004.smartmeter20.R
+import org.riza0004.smartmeter20.ui.component.button.CustomTextButton
 
 @Composable
-fun DialogAddGroup(
-    onDismiss: () -> Unit
+fun DialogTwoButton(
+    onDismiss: () -> Unit,
+    title: String,
+    content: String,
+    onActionStartButton: () -> Unit,
+    onActionEndButton: () -> Unit,
+    startButtonText: String,
+    endButtonText: String,
+    startButtonColor: Color = colorResource(R.color.white),
+    endButtonColor: Color = colorResource(R.color.main),
+    startButtonContentColor: Color = colorResource(R.color.main),
+    endButtonContentColor: Color = colorResource(R.color.white),
+    startBorderButton: BorderStroke? = null,
+    endBorderButton: BorderStroke? = null
 ){
-    var name by remember { mutableStateOf("") }
     Dialog(
-        onDismissRequest = {onDismiss()},
+        onDismissRequest = {onDismiss()}
     ) {
         Card(
             modifier = Modifier.wrapContentHeight().fillMaxWidth().padding(horizontal = 32.dp),
@@ -47,38 +55,42 @@ fun DialogAddGroup(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 horizontalAlignment = Alignment.Start
             ) {
+                //title
                 Text(
-                    text = stringResource(R.string.add_group),
+                    text = title,
                     style = MaterialTheme.typography.titleLarge,
                     color = colorResource(R.color.black)
                 )
-                CustomTextField(
-                    value = name
-                ) {
-                    name = it
-                }
+                //content
+                Text(
+                    text = content,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = colorResource(R.color.black)
+                )
+                //row btn
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.End
                 ) {
                     CustomTextButton(
-                        containerColor = colorResource(R.color.white),
-                        contentColor = colorResource(R.color.main),
-                        text = stringResource(R.string.close),
-                        border = BorderStroke(1.dp, colorResource(R.color.main))
+                        containerColor = startButtonColor,
+                        contentColor = startButtonContentColor,
+                        text = startButtonText,
+                        border = startBorderButton
                     ) {
-                        onDismiss()
+                        onActionStartButton()
                     }
                     Spacer(
                         modifier = Modifier.width(8.dp)
                     )
                     CustomTextButton(
-                        containerColor = colorResource(R.color.main),
-                        contentColor = colorResource(R.color.white),
-                        text = stringResource(R.string.add)
+                        containerColor = endButtonColor,
+                        contentColor = endButtonContentColor,
+                        text = endButtonText,
+                        border = endBorderButton
                     ) {
-                        onDismiss()
+                        onActionEndButton()
                     }
                 }
             }

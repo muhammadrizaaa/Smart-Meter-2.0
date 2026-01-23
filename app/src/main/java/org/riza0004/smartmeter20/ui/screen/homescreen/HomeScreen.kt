@@ -40,8 +40,8 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import org.riza0004.smartmeter20.R
 import org.riza0004.smartmeter20.navigation.Screen
-import org.riza0004.smartmeter20.ui.component.CustomFloatingActionButton
-import org.riza0004.smartmeter20.ui.component.DialogAddGroup
+import org.riza0004.smartmeter20.ui.component.button.CustomFloatingActionButton
+import org.riza0004.smartmeter20.ui.component.dialog.DialogAddGroup
 import org.riza0004.smartmeter20.ui.component.GroupList
 import org.riza0004.smartmeter20.ui.component.UsageReport
 import org.riza0004.smartmeter20.ui.screen.auth.AuthenticationScreen

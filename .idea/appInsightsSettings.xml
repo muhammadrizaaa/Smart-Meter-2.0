@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="org.riza0004.smartmeter20" />
+                  <option name="mobileSdkAppId" value="1:676608877636:android:d44351e8a55f0020978811" />
+                  <option name="projectId" value="pa-smart-monitoring" />
+                  <option name="projectNumber" value="676608877636" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

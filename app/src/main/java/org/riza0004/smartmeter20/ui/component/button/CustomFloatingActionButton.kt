@@ -1,4 +1,4 @@
-package org.riza0004.smartmeter20.ui.component
+package org.riza0004.smartmeter20.ui.component.button
 
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.FloatingActionButton

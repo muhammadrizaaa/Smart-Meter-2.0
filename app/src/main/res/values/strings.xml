@@ -28,4 +28,5 @@
     <string name="hide">sembunyikan</string>
     <string name="about_this_app">Profile</string>
     <string name="logout">Keluar</string>
+    <string name="logout_content">Apakah anda yakin ingin keluar?</string>
 </resources>

@@ -44,8 +44,9 @@ import coil.request.ImageRequest
 import com.firebase.ui.auth.AuthUI
 import org.riza0004.smartmeter20.R
 import org.riza0004.smartmeter20.navigation.Screen
-import org.riza0004.smartmeter20.ui.component.CustomTextField
-import org.riza0004.smartmeter20.ui.component.CustomTextIconButton
+import org.riza0004.smartmeter20.ui.component.textfield.CustomTextField
+import org.riza0004.smartmeter20.ui.component.button.CustomTextIconButton
+import org.riza0004.smartmeter20.ui.component.dialog.DialogTwoButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,10 +58,32 @@ fun ProfileScreen(
     val user by viewModel.userFlow.collectAsState()
     var showEmail by remember { mutableStateOf(false) }
     var name by remember { mutableStateOf("") }
+    var showLogoutDialog by remember { mutableStateOf(false) }
+    val logoutText = stringResource(R.string.logout)
     if(user == null){
         navHostController.navigate(Screen.HomeScreen.route)
     }
     user?.let {
+        if(showLogoutDialog){
+            DialogTwoButton(
+                onDismiss = { showLogoutDialog = false },
+                title = stringResource(R.string.logout),
+                content = stringResource(R.string.logout_content),
+                onActionStartButton = {showLogoutDialog = false},
+                onActionEndButton = {
+                    showLogoutDialog = false
+                    AuthUI.getInstance().signOut(context)
+                    Toast.makeText(context, logoutText, Toast.LENGTH_SHORT).show()
+                                    },
+                startButtonText = stringResource(R.string.close),
+                endButtonText = stringResource(R.string.logout),
+                startButtonColor = colorResource(R.color.white),
+                endButtonColor = colorResource(R.color.red_danger),
+                startButtonContentColor = colorResource(R.color.main),
+                endButtonContentColor = colorResource(R.color.white),
+                startBorderButton = BorderStroke(1.dp, colorResource(R.color.main)),
+            )
+        }
         LaunchedEffect(true) {
             name = "${it.displayName}"
         }
@@ -100,7 +123,10 @@ fun ProfileScreen(
             }
         ) { innerPadding->
             Column(
-                modifier = Modifier.padding(innerPadding).padding(top = 24.dp).padding(horizontal = 16.dp),
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .padding(top = 24.dp)
+                    .padding(horizontal = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(4.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -169,7 +195,6 @@ fun ProfileScreen(
 
                     },
                 )
-                val logoutText = stringResource(R.string.logout)
                 CustomTextIconButton(
                     text = stringResource(R.string.logout),
                     icon = painterResource(R.drawable.baseline_keyboard_arrow_right_24),
@@ -178,8 +203,7 @@ fun ProfileScreen(
                     contentColor = colorResource(R.color.red_danger),
                     border = BorderStroke(2.dp, colorResource(R.color.red_danger)),
                     onClick = {
-                        AuthUI.getInstance().signOut(context)
-                        Toast.makeText(context, logoutText, Toast.LENGTH_SHORT).show()
+                        showLogoutDialog = true
                     },
                 )
             }

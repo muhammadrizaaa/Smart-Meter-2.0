@@ -1,4 +1,4 @@
-package org.riza0004.smartmeter20.ui.component
+package org.riza0004.smartmeter20.ui.component.textfield
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll

@@ -1,4 +1,4 @@
-package org.riza0004.smartmeter20.ui.component
+package org.riza0004.smartmeter20.ui.component.button
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.padding
