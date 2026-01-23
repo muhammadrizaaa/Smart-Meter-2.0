@@ -52,7 +52,6 @@ fun UsageReport(
     var isExpanded by remember { mutableStateOf(false) }
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(4.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
@@ -96,7 +95,6 @@ fun UsageReport(
                 )
             }
             Dropdown(
-//                modifier = TODO(),
                 isExpanded = isExpanded,
                 data = data,
                 onClick = { isExpanded = !isExpanded },
@@ -110,7 +108,7 @@ fun UsageReport(
             )
         }
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
         ) {

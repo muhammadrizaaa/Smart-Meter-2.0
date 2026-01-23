@@ -49,7 +49,7 @@ fun Dropdown(
             }
         ) {
             Row(
-                modifier = Modifier.padding(vertical = 8.dp, horizontal = 4.dp),
+                modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {

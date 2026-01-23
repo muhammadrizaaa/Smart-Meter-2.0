@@ -10,7 +10,9 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
+import org.riza0004.smartmeter20.R
 
 @Composable
 fun CustomTextButton(
@@ -18,12 +20,16 @@ fun CustomTextButton(
     contentColor: Color,
     border: BorderStroke? = null,
     text: String,
-    onClick: () -> Unit,
+    enabled: Boolean = true,
+    onClick: () -> Unit
 ){
     TextButton(
+        enabled = enabled,
         onClick = {onClick()},
         colors = ButtonDefaults.textButtonColors(
-            containerColor, contentColor
+            containerColor, contentColor,
+            disabledContainerColor = colorResource(R.color.grey),
+            disabledContentColor = colorResource(R.color.white)
         ),
         shape = RoundedCornerShape(8.dp),
         border = border

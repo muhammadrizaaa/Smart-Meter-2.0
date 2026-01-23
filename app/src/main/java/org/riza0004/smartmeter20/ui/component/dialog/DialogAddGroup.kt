@@ -78,7 +78,8 @@ fun DialogAddGroup(
                     CustomTextButton(
                         containerColor = colorResource(R.color.main),
                         contentColor = colorResource(R.color.white),
-                        text = stringResource(R.string.add)
+                        text = stringResource(R.string.add),
+                        enabled = name.isNotBlank()
                     ) {
                         onDismiss()
                     }
