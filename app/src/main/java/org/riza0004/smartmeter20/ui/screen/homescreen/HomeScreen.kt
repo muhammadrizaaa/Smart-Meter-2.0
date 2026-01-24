@@ -132,7 +132,7 @@ fun HomeScreen(
                         onUsageReportClick = { navHostController.navigate(Screen.UsageReportMainScreen.route) }
                     )
                     GroupList(
-                        data = viewModel.data,
+                        viewModel = viewModel,
                         onClick = { index->
                             val route = Screen.DetailGroupScreen.withData(
                                 id = viewModel.dataId[index],

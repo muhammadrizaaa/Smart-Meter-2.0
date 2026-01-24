@@ -19,7 +19,9 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -31,12 +33,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import org.riza0004.smartmeter20.R
-import org.riza0004.smartmeter20.dataclass.GroupModel
+import org.riza0004.smartmeter20.ui.screen.homescreen.HomeViewModel
 
 @Composable
 fun GroupList(
     modifier: Modifier = Modifier,
-    data: List<GroupModel>,
+    viewModel: HomeViewModel,
     onClick: (Int) -> Unit
 ){
     val dataDropdown = listOf(
@@ -45,6 +47,7 @@ fun GroupList(
     )
     var selectedData by remember { mutableStateOf(dataDropdown[0]) }
     var isExpanded by remember { mutableStateOf(false) }
+    val data = viewModel.data
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(4.dp),
@@ -101,11 +104,18 @@ fun GroupList(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 itemsIndexed(data){index, group->
+                    var items by remember { mutableIntStateOf(0) }
+                    LaunchedEffect(viewModel.dataId[index]) {
+                        viewModel.getSmartMeterCount(
+                            groupId = viewModel.dataId[index],
+                            onResult = {items = it},
+                        )
+                    }
                     GroupGridItem(
                         modifier = Modifier.fillMaxWidth().weight(0.5f),
                         isOn = false,
                         name = group.name,
-                        items = 0,
+                        items = items,
                         power = 0F,
                         energy = 0F,
                         onChecked = {},

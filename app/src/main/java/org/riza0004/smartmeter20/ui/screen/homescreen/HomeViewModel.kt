@@ -14,6 +14,7 @@ import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
 import org.riza0004.smartmeter20.dataclass.GroupModel
+import org.riza0004.smartmeter20.dataclass.SmartMeterModel
 import org.riza0004.smartmeter20.dataclass.UserModel
 
 class HomeViewModel(private val user: FirebaseUser): ViewModel() {
@@ -85,6 +86,21 @@ class HomeViewModel(private val user: FirebaseUser): ViewModel() {
                     name = name
                 )
             )
+    }
+
+    fun getSmartMeterCount(
+        groupId: String,
+        onResult: (Int) -> Unit
+    ) {
+        db.collection(UserModel.COLLECTION)
+            .document(user.uid)
+            .collection(GroupModel.COLLECTION)
+            .document(groupId)
+            .collection(SmartMeterModel.COLLECTION)
+            .get()
+            .addOnSuccessListener { snapshot ->
+                onResult(snapshot.size())
+            }
     }
 
     override fun onCleared() {
