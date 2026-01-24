@@ -11,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import org.riza0004.smartmeter20.ui.screen.homescreen.HomeScreen
 import org.riza0004.smartmeter20.ui.screen.homescreen.MainViewModel
 import org.riza0004.smartmeter20.ui.screen.profilescreen.ProfileScreen
+import org.riza0004.smartmeter20.ui.screen.usagereportmain.UsageReportMainScreen
 
 @Composable
 fun SetupNavGraph(navHostController: NavHostController = rememberNavController()){
@@ -32,6 +33,14 @@ fun SetupNavGraph(navHostController: NavHostController = rememberNavController()
             route = Screen.ProfileScreen.route
         ) {
             ProfileScreen(navHostController)
+        }
+        composable(
+            route = Screen.UsageReportMainScreen.route
+        ){
+            UsageReportMainScreen(
+                navHostController = navHostController,
+                userFlow = userFlow
+            )
         }
     }
 }

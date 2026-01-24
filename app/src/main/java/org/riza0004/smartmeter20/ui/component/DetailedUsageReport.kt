@@ -2,15 +2,12 @@ package org.riza0004.smartmeter20.ui.component
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,7 +18,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -39,12 +35,10 @@ import co.yml.charts.ui.linechart.model.SelectionHighlightPopUp
 import co.yml.charts.ui.linechart.model.ShadowUnderLine
 import org.riza0004.smartmeter20.R
 import org.riza0004.smartmeter20.ui.theme.SmartMeter20Theme
-import java.text.DecimalFormat
 
 @Composable
-fun UsageReport(
-    modifier: Modifier = Modifier,
-    onUsageReportClick: () -> Unit = {}
+fun DetailedUsageReport(
+    modifier: Modifier = Modifier
 ){
     val data = listOf(
         "Harian",
@@ -54,55 +48,24 @@ fun UsageReport(
     var selectedData by remember { mutableStateOf(data[0]) }
     var isExpanded by remember { mutableStateOf(false) }
     Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalAlignment = Alignment.Start
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 4.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = stringResource(R.string.usage_report),
-                style = MaterialTheme.typography.headlineSmall
-            )
-            IconButton(
-                onClick = {
-                    onUsageReportClick()
-                }
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.baseline_keyboard_arrow_right_24),
-                    contentDescription = stringResource(R.string.show_more),
-                    tint = colorResource(R.color.black),
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-        }
+        Text(
+            text = stringResource(R.string.usage_report),
+            style = MaterialTheme.typography.headlineSmall
+        )
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Start
-            ) {
-                Text(
-                    modifier = Modifier.padding(end = 8.dp),
-                    text = stringResource(R.string.energy, formatDecimal(0.00003)),
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                Text(
-                    text = stringResource(R.string.power, formatDecimal(16.toDouble())),
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
+            Text(
+                modifier = Modifier.padding(end = 8.dp),
+                text = stringResource(R.string.outcome, 500000),
+                style = MaterialTheme.typography.bodyMedium
+            )
             Dropdown(
                 isExpanded = isExpanded,
                 data = data,
@@ -117,31 +80,48 @@ fun UsageReport(
             )
         }
         Row(
-            modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
+            modifier = Modifier
+                .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
         ) {
             Text(
                 modifier = Modifier.padding(end = 8.dp),
-                text = stringResource(R.string.outcome, 50000),
+                text = stringResource(R.string.power, formatDecimal(20.toDouble())),
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Text(
+                text = stringResource(R.string.current, formatDecimal(0.2)),
                 style = MaterialTheme.typography.bodyMedium
             )
         }
-        Box(
-            modifier = Modifier.fillMaxWidth()
-        ){
-            LineChart()
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start
+        ) {
+            Text(
+                modifier = Modifier.padding(end = 8.dp),
+                text = stringResource(R.string.energy, formatDecimal(0.002)),
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Text(
+                text = stringResource(R.string.voltage, formatDecimal(200.toDouble())),
+                style = MaterialTheme.typography.bodyMedium
+            )
         }
+        DetailedLineChart()
     }
 }
 
 @Composable
-fun LineChart(
-    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier.height(150.dp)
+fun DetailedLineChart(
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier.height(300.dp)
 ){
     val pointsData: List<Point> = listOf(
         Point(0f, 40f),
-        Point(1f, 100f),
+        Point(1f, 150f),
         Point(2f, 25f),
         Point(3f, 75f),
         Point(4f, 10f)
@@ -155,7 +135,7 @@ fun LineChart(
         .build()
 
     val maxY = pointsData.maxOf { it.y }
-    val steps = 4
+    val steps = 8
     val yScale = maxY/steps
 
     val yAxisData = AxisData.Builder()
@@ -190,14 +170,10 @@ fun LineChart(
     )
 }
 
-fun formatDecimal(value: Double): String {
-    return DecimalFormat("0.#####").format(value)
-}
-
 @Preview(showBackground = true)
 @Composable
-fun UsageReportPreview() {
+fun DetailedUsageReportPreview() {
     SmartMeter20Theme {
-        UsageReport()
+        DetailedUsageReport()
     }
 }

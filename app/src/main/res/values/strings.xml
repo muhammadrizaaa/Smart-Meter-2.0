@@ -5,8 +5,10 @@
     <string name="add">Tambah</string>
 
     <string name="usage_report">Laporan Penggunaan</string>
-    <string name="energy">Energi: %1$.4f Kwh</string>
-    <string name="power">Power: %1$d W</string>
+    <string name="energy">Energi: %1$s Kwh</string>
+    <string name="power">Kekuatan: %1$s Watt</string>
+    <string name="current">Arus: %1$s Amp</string>
+    <string name="voltage">Voltase: %1$s Volt</string>
     <string name="outcome">Pengeluaran: RP. %1$,d</string>
     <string name="daily">Harian</string>
     <string name="monthly">Bulanan</string>
@@ -22,6 +24,8 @@
     <string name="add_group">Tambah Grup</string>
     <string name="name">Name</string>
     <string name="close">Tutup</string>
+
+    <string name="detail_usage_report">Detail Laporan Penggunaan</string>
 
     <string name="profile">Profile</string>
     <string name="show">Tunjukan</string>

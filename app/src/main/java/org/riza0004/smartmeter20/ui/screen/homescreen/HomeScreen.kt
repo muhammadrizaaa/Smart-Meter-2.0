@@ -94,7 +94,9 @@ fun HomeScreen(
                     },
                     actions = {
                         Box(
-                            modifier = Modifier.padding(end = 16.dp).size(32.dp)
+                            modifier = Modifier
+                                .padding(end = 16.dp)
+                                .size(32.dp)
                                 .clip(CircleShape)
                                 .clickable(onClick = {
                                     navHostController.navigate(Screen.ProfileScreen.route)
@@ -114,16 +116,21 @@ fun HomeScreen(
             }
         ) {innerPadding->
             Box(
-                modifier = Modifier.fillMaxSize().padding(innerPadding)
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
             ){
                 Column(
-                    modifier = Modifier.wrapContentSize()
+                    modifier = Modifier
+                        .wrapContentSize()
                         .fillMaxWidth()
                         .padding(horizontal = 8.dp)
                         .padding(top = 16.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    UsageReport()
+                    UsageReport(
+                        onUsageReportClick = { navHostController.navigate(Screen.UsageReportMainScreen.route) }
+                    )
                     GroupList(
                         data = viewModel.data
                     )
