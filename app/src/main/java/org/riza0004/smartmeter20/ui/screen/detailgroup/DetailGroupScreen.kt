@@ -1,6 +1,5 @@
-package org.riza0004.smartmeter20.ui.screen.homescreen
+package org.riza0004.smartmeter20.ui.screen.detailgroup
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,63 +9,62 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.google.firebase.auth.FirebaseUser
 import org.riza0004.smartmeter20.R
 import org.riza0004.smartmeter20.navigation.Screen
-import org.riza0004.smartmeter20.ui.component.GroupList
+import org.riza0004.smartmeter20.ui.component.SmartMeterList
 import org.riza0004.smartmeter20.ui.component.UsageReport
-import org.riza0004.smartmeter20.ui.component.button.CustomFloatingActionButton
 import org.riza0004.smartmeter20.ui.component.dialog.DialogAddGroup
-import org.riza0004.smartmeter20.ui.screen.auth.AuthenticationScreen
 import org.riza0004.smartmeter20.util.ViewModelFactory
+
+const val KEY_ID_GROUP = "groupId"
+const val KEY_NAME_GROUP = "groupName"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(
+fun DetailGroupScreen(
     navHostController: NavHostController,
+    groupId: String,
+    groupName: String,
     userFlow: FirebaseUser?
 ){
     if(userFlow == null){
-        AuthenticationScreen()
+        navHostController.navigate(Screen.HomeScreen.route)
     }
     userFlow?.let {
         val factory = ViewModelFactory(userFlow)
-        val viewModel: HomeViewModel = viewModel(
+        val viewModel: DetailGroupViewModel = viewModel(
             factory = factory
         )
-        val context = LocalContext.current
         var dialogAddGroupIsOpen by remember { mutableStateOf(false) }
+        val data = viewModel.data
+        LaunchedEffect(data) {
+            viewModel.init(groupId)
+        }
         Scaffold(
-            floatingActionButton = {
-                CustomFloatingActionButton {
-                    dialogAddGroupIsOpen = true
-                }
-            },
             containerColor = colorResource(R.color.white),
             topBar = {
                 TopAppBar(
@@ -79,42 +77,30 @@ fun HomeScreen(
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Icon(
-                                painter = painterResource(R.drawable.app_icon),
-                                contentDescription = stringResource(R.string.app_name),
-                                tint = colorResource(R.color.light_main),
-                                modifier = Modifier.size(48.dp)
-                            )
+                            IconButton(
+                                onClick = {
+                                    navHostController.navigateUp()
+                                }
+                            ) {
+                                Icon(
+                                    painter = painterResource(R.drawable.outline_keyboard_arrow_left_24),
+                                    contentDescription = stringResource(R.string.app_name),
+                                    tint = colorResource(R.color.light_main),
+                                    modifier = Modifier.size(36.dp)
+                                )
+                            }
                             Text(
-                                text = stringResource(R.string.short_app_name),
+                                text = groupName,
+                                overflow = TextOverflow.Ellipsis,
+                                maxLines = 1,
                                 style = MaterialTheme.typography.headlineMedium,
                                 color = colorResource(R.color.light_main)
-                            )
-                        }
-                    },
-                    actions = {
-                        Box(
-                            modifier = Modifier
-                                .padding(end = 16.dp)
-                                .size(32.dp)
-                                .clip(CircleShape)
-                                .clickable(onClick = {
-                                    navHostController.navigate(Screen.ProfileScreen.route)
-                                })
-                        ) {
-                            AsyncImage(
-                                model = ImageRequest.Builder(context)
-                                    .data(it.photoUrl)
-                                    .crossfade(true)
-                                    .build(),
-                                contentDescription = null,
-                                modifier = Modifier.fillMaxSize()
                             )
                         }
                     }
                 )
             }
-        ) {innerPadding->
+        ) { innerPadding->
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -131,24 +117,16 @@ fun HomeScreen(
                     UsageReport(
                         onUsageReportClick = { navHostController.navigate(Screen.UsageReportMainScreen.route) }
                     )
-                    GroupList(
+                    SmartMeterList(
                         data = viewModel.data,
-                        onClick = { index->
-                            val route = Screen.DetailGroupScreen.withData(
-                                id = viewModel.dataId[index],
-                                name = viewModel.data[index].name
-                            )
-                            navHostController.navigate(route)
-                        }
+                        name = groupName
                     )
                 }
             }
             if(dialogAddGroupIsOpen){
                 DialogAddGroup(
                     onDismiss = {dialogAddGroupIsOpen = false},
-                    onConfirm = { name->
-                        viewModel.insertGroup(name)
-                    }
+                    onConfirm = {}
                 )
             }
         }

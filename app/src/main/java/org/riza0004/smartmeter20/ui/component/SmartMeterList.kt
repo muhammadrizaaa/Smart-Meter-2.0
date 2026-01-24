@@ -1,6 +1,5 @@
 package org.riza0004.smartmeter20.ui.component
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,7 +10,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -31,13 +30,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import org.riza0004.smartmeter20.R
-import org.riza0004.smartmeter20.dataclass.GroupModel
+import org.riza0004.smartmeter20.dataclass.SmartMeterModel
 
 @Composable
-fun GroupList(
+fun SmartMeterList(
     modifier: Modifier = Modifier,
-    data: List<GroupModel>,
-    onClick: (Int) -> Unit
+    data: List<SmartMeterModel>,
+    name: String
 ){
     val dataDropdown = listOf(
         "Nama A-Z",
@@ -58,7 +57,9 @@ fun GroupList(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = stringResource(R.string.group_list),
+                text = name,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
                 style = MaterialTheme.typography.headlineSmall
             )
             Row(
@@ -100,18 +101,18 @@ fun GroupList(
                 verticalArrangement = Arrangement.spacedBy(4.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                itemsIndexed(data){index, group->
-                    GroupGridItem(
-                        modifier = Modifier.fillMaxWidth().weight(0.5f),
+                items(data){it->
+                    SmartMeterGridItem(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(0.5f),
                         isOn = false,
-                        name = group.name,
-                        items = 0,
-                        power = 0F,
-                        energy = 0F,
-                        onChecked = {},
-                        onClick = {
-                            onClick(index)
-                        }
+                        name = it.name,
+                        power = 20.0,
+                        energy = 0.02,
+                        current = 0.2,
+                        voltage = 200.0,
+                        onChecked = {}
                     )
                 }
             }
@@ -120,20 +121,18 @@ fun GroupList(
 }
 
 @Composable
-fun GroupGridItem(
+fun SmartMeterGridItem(
     modifier: Modifier = Modifier,
     name: String,
-    items: Int,
-    power: Float,
-    energy: Float,
+    power: Double,
+    energy: Double,
+    current: Double,
+    voltage: Double,
     isOn: Boolean,
-    onChecked: () -> Unit,
-    onClick: () -> Unit
-    ){
+    onChecked: () -> Unit
+){
     Card(
-        modifier = modifier.clickable(
-            onClick = {onClick()}
-        ),
+        modifier = modifier,
         colors = CardDefaults.cardColors(
             containerColor = colorResource(R.color.light_main),
             contentColor = colorResource(R.color.black)
@@ -154,10 +153,23 @@ fun GroupGridItem(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = "$items metering",
-                    style = MaterialTheme.typography.bodyMedium
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    Text(
+                        modifier = Modifier.padding(end = 8.dp),
+                        text = "${formatDecimal(power)} W",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    Text(
+                        text = "${formatDecimal(voltage)} V",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
                 Switch(
                     checked = isOn,
                     onCheckedChange = {
@@ -172,7 +184,9 @@ fun GroupGridItem(
                         uncheckedThumbColor = colorResource(R.color.white),
                         checkedThumbColor = colorResource(R.color.white)
                     ),
-                    modifier = Modifier.width(40.dp).height(26.dp)
+                    modifier = Modifier
+                        .width(40.dp)
+                        .height(26.dp)
                 )
             }
             Row(
@@ -180,11 +194,11 @@ fun GroupGridItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "$energy Kwh",
+                    text = "${formatDecimal(energy)} Kwh",
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Text(
-                    text = "$power W",
+                    text = "${formatDecimal(current)} W",
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
