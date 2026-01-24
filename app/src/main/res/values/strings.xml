@@ -2,7 +2,6 @@
     <string name="app_name">Smart Meter 2.0</string>
     <string name="short_app_name">2.0</string>
     <string name="short_app_name_w_v">V2</string>
-    <string name="add">Tambah</string>
 
     <string name="usage_report">Laporan Penggunaan</string>
     <string name="energy">Energi: %1$s Kwh</string>
@@ -12,6 +11,8 @@
     <string name="outcome">Pengeluaran: RP. %1$,d</string>
     <string name="daily">Harian</string>
     <string name="monthly">Bulanan</string>
+    <string name="edit">Edit</string>
+    <string name="add">Tambah</string>
 
     <string name="group_list">List Grup</string>
     <string name="sort_by">Urutkan Dari</string>
@@ -22,8 +23,11 @@
     <string name="version">V %1$s</string>
 
     <string name="add_group">Tambah Grup</string>
+    <string name="edit_group">Edit Grup</string>
     <string name="name">Name</string>
     <string name="close">Tutup</string>
+
+    <string name="add_smart_meter">Tambah Smart Meter</string>
 
     <string name="detail_usage_report">Detail Laporan Penggunaan</string>
 

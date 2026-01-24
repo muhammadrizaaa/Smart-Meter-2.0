@@ -70,6 +70,27 @@ class DetailGroupViewModel(private val user: FirebaseUser): ViewModel() {
             .addSnapshotListener(listener)
     }
 
+    fun updateGroup(groupId: String, newName: String) {
+        db.collection(UserModel.COLLECTION)
+            .document(user.uid)
+            .collection(GroupModel.COLLECTION)
+            .document(groupId)
+            .update("name", newName)
+    }
+
+    fun insertSmartMeter(groupId: String, name: String){
+        db.collection(UserModel.COLLECTION)
+            .document(user.uid)
+            .collection(GroupModel.COLLECTION)
+            .document(groupId)
+            .collection(SmartMeterModel.COLLECTION)
+            .add(
+                SmartMeterModel(
+                    name = name
+                )
+            )
+    }
+
     override fun onCleared() {
         registration?.remove()
         registration = null

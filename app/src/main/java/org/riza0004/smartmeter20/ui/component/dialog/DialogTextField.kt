@@ -30,11 +30,15 @@ import org.riza0004.smartmeter20.ui.component.button.CustomTextButton
 import org.riza0004.smartmeter20.ui.component.textfield.CustomTextField
 
 @Composable
-fun DialogAddGroup(
+fun DialogTextField(
+    value: String = "",
+    label: String,
+    title: String,
+    textConfirmBtn: String,
     onDismiss: () -> Unit,
     onConfirm: (String) -> Unit
 ){
-    var name by remember { mutableStateOf("") }
+    var name by remember { mutableStateOf(value) }
     Dialog(
         onDismissRequest = {onDismiss()},
     ) {
@@ -51,11 +55,12 @@ fun DialogAddGroup(
                 horizontalAlignment = Alignment.Start
             ) {
                 Text(
-                    text = stringResource(R.string.add_group),
+                    text = title,
                     style = MaterialTheme.typography.titleLarge,
                     color = colorResource(R.color.black)
                 )
                 CustomTextField(
+                    label = label,
                     value = name
                 ) {
                     name = it
@@ -79,8 +84,8 @@ fun DialogAddGroup(
                     CustomTextButton(
                         containerColor = colorResource(R.color.main),
                         contentColor = colorResource(R.color.white),
-                        text = stringResource(R.string.add),
-                        enabled = name.isNotBlank()
+                        text = textConfirmBtn,
+                        enabled = name.isNotBlank() && name != value
                     ) {
                         onConfirm(name)
                         onDismiss()

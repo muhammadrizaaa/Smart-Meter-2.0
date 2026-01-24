@@ -20,13 +20,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import org.riza0004.smartmeter20.R
 
 @Composable
 fun CustomTextField(
+    label: String,
     value: String,
     onValChange: (String) -> Unit
 ){
@@ -52,7 +52,7 @@ fun CustomTextField(
             ) {
                 Text(
                     modifier = Modifier.padding(start = 4.dp),
-                    text = stringResource(R.string.name),
+                    text = label,
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Box(

@@ -169,6 +169,7 @@ fun ProfileScreen(
                 }
 
                 CustomTextField(
+                    label = stringResource(R.string.name),
                     value = name,
                     onValChange = { value->
                         name = value

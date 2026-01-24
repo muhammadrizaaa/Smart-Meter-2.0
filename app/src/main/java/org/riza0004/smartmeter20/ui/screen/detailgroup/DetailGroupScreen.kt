@@ -37,7 +37,8 @@ import org.riza0004.smartmeter20.R
 import org.riza0004.smartmeter20.navigation.Screen
 import org.riza0004.smartmeter20.ui.component.SmartMeterList
 import org.riza0004.smartmeter20.ui.component.UsageReport
-import org.riza0004.smartmeter20.ui.component.dialog.DialogAddGroup
+import org.riza0004.smartmeter20.ui.component.button.CustomFloatingActionButton
+import org.riza0004.smartmeter20.ui.component.dialog.DialogTextField
 import org.riza0004.smartmeter20.util.ViewModelFactory
 
 const val KEY_ID_GROUP = "groupId"
@@ -59,8 +60,10 @@ fun DetailGroupScreen(
         val viewModel: DetailGroupViewModel = viewModel(
             factory = factory
         )
-        var dialogAddGroupIsOpen by remember { mutableStateOf(false) }
+        var dialogAddSmartMeterIsOpen by remember { mutableStateOf(false) }
+        var dialogEditGroupIsOpen by remember { mutableStateOf(false) }
         val data = viewModel.data
+        var editedGroupName by remember { mutableStateOf(groupName) }
         LaunchedEffect(data) {
             viewModel.init(groupId)
         }
@@ -90,15 +93,34 @@ fun DetailGroupScreen(
                                 )
                             }
                             Text(
-                                text = groupName,
+                                text = editedGroupName,
                                 overflow = TextOverflow.Ellipsis,
                                 maxLines = 1,
                                 style = MaterialTheme.typography.headlineMedium,
                                 color = colorResource(R.color.light_main)
                             )
                         }
+                    },
+                    actions = {
+                        IconButton(
+                            onClick = {
+                                dialogEditGroupIsOpen = true
+                            }
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.baseline_edit_24),
+                                contentDescription = stringResource(R.string.edit),
+                                modifier = Modifier.size(36.dp),
+                                tint = colorResource(R.color.light_main)
+                            )
+                        }
                     }
                 )
+            },
+            floatingActionButton = {
+                CustomFloatingActionButton {
+                    dialogAddSmartMeterIsOpen = true
+                }
             }
         ) { innerPadding->
             Box(
@@ -123,10 +145,34 @@ fun DetailGroupScreen(
                     )
                 }
             }
-            if(dialogAddGroupIsOpen){
-                DialogAddGroup(
-                    onDismiss = {dialogAddGroupIsOpen = false},
-                    onConfirm = {}
+            if(dialogEditGroupIsOpen){
+                DialogTextField(
+                    value = groupName,
+                    onDismiss = { dialogEditGroupIsOpen = false },
+                    onConfirm = {
+                        viewModel.updateGroup(
+                            groupId = groupId,
+                            newName = it
+                        )
+                        editedGroupName = it
+                    },
+                    label = stringResource(R.string.name),
+                    title = stringResource(R.string.add_smart_meter),
+                    textConfirmBtn = stringResource(R.string.edit)
+                )
+            }
+            if(dialogAddSmartMeterIsOpen){
+                DialogTextField(
+                    onDismiss = { dialogAddSmartMeterIsOpen = false },
+                    onConfirm = {
+                        viewModel.insertSmartMeter(
+                            groupId = groupId,
+                            name = it
+                        )
+                    },
+                    label = stringResource(R.string.name),
+                    title = stringResource(R.string.add_smart_meter),
+                    textConfirmBtn = stringResource(R.string.add)
                 )
             }
         }

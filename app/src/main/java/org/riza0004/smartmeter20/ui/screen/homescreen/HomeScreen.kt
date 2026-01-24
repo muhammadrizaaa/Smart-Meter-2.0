@@ -41,7 +41,7 @@ import org.riza0004.smartmeter20.navigation.Screen
 import org.riza0004.smartmeter20.ui.component.GroupList
 import org.riza0004.smartmeter20.ui.component.UsageReport
 import org.riza0004.smartmeter20.ui.component.button.CustomFloatingActionButton
-import org.riza0004.smartmeter20.ui.component.dialog.DialogAddGroup
+import org.riza0004.smartmeter20.ui.component.dialog.DialogTextField
 import org.riza0004.smartmeter20.ui.screen.auth.AuthenticationScreen
 import org.riza0004.smartmeter20.util.ViewModelFactory
 
@@ -144,11 +144,14 @@ fun HomeScreen(
                 }
             }
             if(dialogAddGroupIsOpen){
-                DialogAddGroup(
-                    onDismiss = {dialogAddGroupIsOpen = false},
-                    onConfirm = { name->
+                DialogTextField(
+                    onDismiss = { dialogAddGroupIsOpen = false },
+                    onConfirm = { name ->
                         viewModel.insertGroup(name)
-                    }
+                    },
+                    label = stringResource(R.string.name),
+                    title = stringResource(R.string.add_group),
+                    textConfirmBtn = stringResource(R.string.add)
                 )
             }
         }
