@@ -137,11 +137,18 @@ fun DetailGroupScreen(
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     UsageReport(
-                        onUsageReportClick = { navHostController.navigate(Screen.UsageReportMainScreen.route) }
+                        onUsageReportClick = {
+                            val route = Screen.UsageReportMainScreen.withData(1)
+                            navHostController.navigate(route)
+                        }
                     )
                     SmartMeterList(
                         data = viewModel.data,
-                        name = groupName
+                        name = groupName,
+                        onCLick = {
+                            val route = Screen.UsageReportMainScreen.withData(2)
+                            navHostController.navigate(route)
+                        }
                     )
                 }
             }

@@ -1,6 +1,5 @@
 package org.riza0004.smartmeter20.ui.component
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,18 +24,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import co.yml.charts.axis.AxisData
-import co.yml.charts.common.model.Point
-import co.yml.charts.ui.linechart.LineChart
-import co.yml.charts.ui.linechart.model.GridLines
-import co.yml.charts.ui.linechart.model.IntersectionPoint
-import co.yml.charts.ui.linechart.model.Line
-import co.yml.charts.ui.linechart.model.LineChartData
-import co.yml.charts.ui.linechart.model.LinePlotData
-import co.yml.charts.ui.linechart.model.LineStyle
-import co.yml.charts.ui.linechart.model.SelectionHighlightPoint
-import co.yml.charts.ui.linechart.model.SelectionHighlightPopUp
-import co.yml.charts.ui.linechart.model.ShadowUnderLine
 import org.riza0004.smartmeter20.R
 import org.riza0004.smartmeter20.ui.theme.SmartMeter20Theme
 import java.text.DecimalFormat
@@ -59,8 +46,7 @@ fun UsageReport(
     ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 4.dp),
+                .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -82,24 +68,33 @@ fun UsageReport(
             }
         }
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
+            verticalAlignment = Alignment.Bottom,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Row(
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Start
+                verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    Text(
+                        modifier = Modifier.padding(end = 8.dp),
+                        text = stringResource(R.string.energy, formatDecimal(0.00003)),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    Text(
+                        text = stringResource(R.string.power, formatDecimal(16.toDouble())),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
                 Text(
                     modifier = Modifier.padding(end = 8.dp),
-                    text = stringResource(R.string.energy, formatDecimal(0.00003)),
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                Text(
-                    text = stringResource(R.string.power, formatDecimal(16.toDouble())),
+                    text = stringResource(R.string.outcome, 50000),
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
@@ -116,82 +111,19 @@ fun UsageReport(
                 selectedData = selectedData
             )
         }
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start
-        ) {
-            Text(
-                modifier = Modifier.padding(end = 8.dp),
-                text = stringResource(R.string.outcome, 50000),
-                style = MaterialTheme.typography.bodyMedium
-            )
-        }
         Box(
             modifier = Modifier.fillMaxWidth()
         ){
-            LineChart()
+            CustomLineChart(
+                Modifier.height(150.dp),
+                steps = 4
+            )
         }
     }
 }
 
-@Composable
-fun LineChart(
-    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier.height(150.dp)
-){
-    val pointsData: List<Point> = listOf(
-        Point(0f, 40f),
-        Point(1f, 100f),
-        Point(2f, 25f),
-        Point(3f, 75f),
-        Point(4f, 10f)
-    )
-    val xAxisData = AxisData.Builder()
-        .axisStepSize(75.dp)
-        .backgroundColor(colorResource(R.color.light_main))
-        .steps(pointsData.size - 1)
-        .labelData { i -> i.toString() }
-        .labelAndAxisLinePadding(16.dp)
-        .build()
-
-    val maxY = pointsData.maxOf { it.y }
-    val steps = 4
-    val yScale = maxY/steps
-
-    val yAxisData = AxisData.Builder()
-        .steps(steps)
-        .backgroundColor(colorResource(R.color.light_main))
-        .labelAndAxisLinePadding(24.dp)
-        .labelData { i ->
-            (i * yScale).toInt().toString()
-        }.build()
-
-    val lineChartData = LineChartData(
-        linePlotData = LinePlotData(
-            lines = listOf(
-                Line(
-                    dataPoints = pointsData,
-                    lineStyle = LineStyle(),
-                    intersectionPoint = IntersectionPoint(),
-                    selectionHighlightPoint = SelectionHighlightPoint(),
-                    shadowUnderLine = ShadowUnderLine(),
-                    selectionHighlightPopUp = SelectionHighlightPopUp()
-                )
-            )
-        ),
-        xAxisData = xAxisData,
-        yAxisData = yAxisData,
-        gridLines = GridLines(),
-        backgroundColor = colorResource(R.color.light_main)
-    )
-    LineChart(
-        modifier = modifier.fillMaxWidth(),
-        lineChartData = lineChartData
-    )
-}
-
 fun formatDecimal(value: Double): String {
-    return DecimalFormat("0.#####").format(value)
+    return DecimalFormat("0.####").format(value)
 }
 
 @Preview(showBackground = true)

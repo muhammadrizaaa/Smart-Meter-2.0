@@ -112,7 +112,9 @@ fun GroupList(
                         )
                     }
                     GroupGridItem(
-                        modifier = Modifier.fillMaxWidth().weight(0.5f),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(0.5f),
                         isOn = false,
                         name = group.name,
                         items = items,
@@ -150,24 +152,32 @@ fun GroupGridItem(
         )
     ) {
         Column(
-            modifier = Modifier.padding(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalAlignment = Alignment.Start
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxWidth(),
         ) {
-            Text(
-                text = name,
-                style = MaterialTheme.typography.titleLarge,
-                overflow = TextOverflow.Ellipsis
-            )
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "$items metering",
-                    style = MaterialTheme.typography.bodyMedium
-                )
+                verticalAlignment = Alignment.Bottom,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ){
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                    horizontalAlignment = Alignment.Start
+                ) {
+                    Text(
+                        modifier = Modifier.padding(bottom = 4.dp),
+                        text = name,
+                        style = MaterialTheme.typography.titleLarge,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Text(
+                        text = "$items metering",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
                 Switch(
                     checked = isOn,
                     onCheckedChange = {
@@ -182,18 +192,24 @@ fun GroupGridItem(
                         uncheckedThumbColor = colorResource(R.color.white),
                         checkedThumbColor = colorResource(R.color.white)
                     ),
-                    modifier = Modifier.width(40.dp).height(26.dp)
+                    modifier = Modifier
+                        .padding(bottom = 2.dp)
+                        .width(40.dp)
+                        .height(26.dp)
                 )
             }
             Row(
+                modifier = Modifier.padding(top = 4.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "$energy Kwh",
+                    maxLines = 1,
+                    text = "${formatDecimal(0.2022)} Kwh",
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Text(
+                    maxLines = 1,
                     text = "$power W",
                     style = MaterialTheme.typography.bodyMedium
                 )

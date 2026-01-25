@@ -129,7 +129,10 @@ fun HomeScreen(
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     UsageReport(
-                        onUsageReportClick = { navHostController.navigate(Screen.UsageReportMainScreen.route) }
+                        onUsageReportClick = {
+                            val route = Screen.UsageReportMainScreen.withData(0)
+                            navHostController.navigate(route)
+                        }
                     )
                     GroupList(
                         viewModel = viewModel,

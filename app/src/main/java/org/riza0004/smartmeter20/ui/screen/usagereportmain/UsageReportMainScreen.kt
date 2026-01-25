@@ -26,9 +26,11 @@ import org.riza0004.smartmeter20.R
 import org.riza0004.smartmeter20.navigation.Screen
 import org.riza0004.smartmeter20.ui.component.DetailedUsageReport
 
+const val NAV_ID = "navId"
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UsageReportMainScreen(
+    navId: Int,
     navHostController: NavHostController,
     userFlow: FirebaseUser?
 ){
@@ -62,7 +64,11 @@ fun UsageReportMainScreen(
                                 )
                             }
                             Text(
-                                text = it.displayName.toString(),
+                                text = when(navId) {
+                                    0 -> it.displayName.toString()
+                                    1 -> "group"
+                                    else -> "smart meter"
+                                },
                                 overflow = TextOverflow.Ellipsis,
                                 maxLines = 1,
                                 style = MaterialTheme.typography.headlineMedium,
@@ -74,6 +80,7 @@ fun UsageReportMainScreen(
             }
         ) { innerPadding->
             DetailedUsageReport(
+                type = navId,
                 modifier = Modifier  .padding(innerPadding)
                     .padding(top = 24.dp)
                     .padding(horizontal = 16.dp),

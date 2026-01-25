@@ -1,5 +1,6 @@
 package org.riza0004.smartmeter20.ui.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,6 +37,7 @@ import org.riza0004.smartmeter20.dataclass.SmartMeterModel
 fun SmartMeterList(
     modifier: Modifier = Modifier,
     data: List<SmartMeterModel>,
+    onCLick: (String) -> Unit,
     name: String
 ){
     val dataDropdown = listOf(
@@ -112,6 +114,9 @@ fun SmartMeterList(
                         energy = 0.02,
                         current = 0.2,
                         voltage = 200.0,
+                        onCLick = {
+                            onCLick("")
+                        },
                         onChecked = {}
                     )
                 }
@@ -129,46 +134,54 @@ fun SmartMeterGridItem(
     current: Double,
     voltage: Double,
     isOn: Boolean,
+    onCLick: () -> Unit,
     onChecked: () -> Unit
 ){
     Card(
-        modifier = modifier,
+        modifier = modifier
+            .clickable(onClick = { onCLick() }),
         colors = CardDefaults.cardColors(
             containerColor = colorResource(R.color.light_main),
             contentColor = colorResource(R.color.black)
         )
     ) {
         Column(
-            modifier = Modifier.padding(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalAlignment = Alignment.Start
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxWidth(),
         ) {
-            Text(
-                text = name,
-                style = MaterialTheme.typography.titleLarge,
-                overflow = TextOverflow.Ellipsis
-            )
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row(
+                verticalAlignment = Alignment.Bottom,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ){
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(1f),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Start
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                    horizontalAlignment = Alignment.Start
                 ) {
                     Text(
-                        modifier = Modifier.padding(end = 8.dp),
-                        text = "${formatDecimal(power)} W",
-                        style = MaterialTheme.typography.bodyMedium
+                        modifier = Modifier.padding(bottom = 4.dp),
+                        maxLines = 1,
+                        text = name,
+                        style = MaterialTheme.typography.titleLarge,
+                        overflow = TextOverflow.Ellipsis
                     )
-                    Text(
-                        text = "${formatDecimal(voltage)} V",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Start
+                    ) {
+                        Text(
+                            modifier = Modifier.padding(end = 8.dp),
+                            text = "${formatDecimal(power)} W",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                        Text(
+                            text = "${formatDecimal(voltage)} V",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
                 }
                 Switch(
                     checked = isOn,
@@ -185,11 +198,13 @@ fun SmartMeterGridItem(
                         checkedThumbColor = colorResource(R.color.white)
                     ),
                     modifier = Modifier
+                        .padding(bottom = 2.dp)
                         .width(40.dp)
                         .height(26.dp)
                 )
             }
             Row(
+                modifier = Modifier.padding(top = 4.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -198,7 +213,7 @@ fun SmartMeterGridItem(
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Text(
-                    text = "${formatDecimal(current)} W",
+                    text = "${formatDecimal(current)} A",
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
