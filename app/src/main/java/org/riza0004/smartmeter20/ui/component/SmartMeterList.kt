@@ -19,6 +19,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,12 +32,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import org.riza0004.smartmeter20.R
-import org.riza0004.smartmeter20.dataclass.SmartMeterModel
+import org.riza0004.smartmeter20.ui.screen.detailgroup.DetailGroupViewModel
 
 @Composable
 fun SmartMeterList(
+    viewModel: DetailGroupViewModel,
     modifier: Modifier = Modifier,
-    data: List<SmartMeterModel>,
     onCLick: (String) -> Unit,
     name: String
 ){
@@ -89,7 +90,7 @@ fun SmartMeterList(
                 )
             }
         }
-        if(data.isEmpty()){
+        if(viewModel.data.isEmpty()){
             Text(
                 text = "Kosong",
                 style = MaterialTheme.typography.titleLarge,
@@ -103,21 +104,28 @@ fun SmartMeterList(
                 verticalArrangement = Arrangement.spacedBy(4.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(data){it->
+                items(viewModel.data){it->
+                    viewModel.observeMeter("1")
+                    val liveData by viewModel.liveData.collectAsState()
                     SmartMeterGridItem(
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(0.5f),
-                        isOn = false,
+                        isOn = liveData?.ison == 1L,
                         name = it.name,
-                        power = 20.0,
-                        energy = 0.02,
-                        current = 0.2,
-                        voltage = 200.0,
+                        power = liveData?.power?:0.0,
+                        energy = liveData?.energy?:0.0,
+                        current = liveData?.current?:0.0,
+                        voltage = liveData?.voltage?:0.0,
                         onCLick = {
                             onCLick("")
                         },
-                        onChecked = {}
+                        onChecked = {
+                            viewModel.setRelay(
+                                meterId = "1",
+                                value = if(liveData?.ison == 1L) 0 else 1
+                            )
+                        }
                     )
                 }
             }

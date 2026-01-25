@@ -143,7 +143,7 @@ fun DetailGroupScreen(
                         }
                     )
                     SmartMeterList(
-                        data = viewModel.data,
+                        viewModel = viewModel,
                         name = groupName,
                         onCLick = {
                             val route = Screen.UsageReportMainScreen.withData(2)
