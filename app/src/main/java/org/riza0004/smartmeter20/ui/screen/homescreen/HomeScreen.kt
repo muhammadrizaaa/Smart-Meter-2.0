@@ -55,11 +55,11 @@ fun HomeScreen(
         AuthenticationScreen()
     }
     userFlow?.let {
-        val factory = ViewModelFactory(userFlow)
+        val context = LocalContext.current
+        val factory = ViewModelFactory(userFlow, context)
         val viewModel: HomeViewModel = viewModel(
             factory = factory
         )
-        val context = LocalContext.current
         var dialogAddGroupIsOpen by remember { mutableStateOf(false) }
         Scaffold(
             floatingActionButton = {

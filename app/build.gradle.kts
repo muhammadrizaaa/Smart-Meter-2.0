@@ -37,6 +37,7 @@ android {
             jvmTarget.set(
                 org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
             )
+            freeCompilerArgs = listOf("-XXLanguage:+PropertyParamAnnotationDefaultTargetMode")
         }
     }
     buildFeatures {
@@ -62,6 +63,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.realtimedatabase)
+    implementation(libs.google.accompanist.permissions)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

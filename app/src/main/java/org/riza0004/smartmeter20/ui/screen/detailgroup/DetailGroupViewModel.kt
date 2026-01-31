@@ -1,6 +1,12 @@
 package org.riza0004.smartmeter20.ui.screen.detailgroup
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.bluetooth.BluetoothDevice
+import android.bluetooth.BluetoothManager
+import android.content.Context
 import android.util.Log
+import androidx.annotation.RequiresPermission
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import com.google.firebase.Firebase
@@ -18,13 +24,17 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import org.riza0004.smartmeter20.dataclass.GroupModel
 import org.riza0004.smartmeter20.dataclass.MeterLiveData
 import org.riza0004.smartmeter20.dataclass.SmartMeterModel
 import org.riza0004.smartmeter20.dataclass.UserModel
 
-class DetailGroupViewModel(private val user: FirebaseUser): ViewModel() {
+class DetailGroupViewModel(
+    private val user: FirebaseUser,
+    @SuppressLint("StaticFieldLeak") private val context: Context
+): ViewModel() {
     private val db = Firebase.firestore
     var dataId = mutableStateListOf<String>()
         private set
@@ -39,6 +49,13 @@ class DetailGroupViewModel(private val user: FirebaseUser): ViewModel() {
             value?.documentChanges?.forEach { handle(it) }
         }
     }
+
+    private val bluetoothManager =
+        context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+    private val bluetoothAdapter = bluetoothManager.adapter
+
+    private val _pairedDevices = MutableStateFlow<List<BluetoothDevice>>(emptyList())
+    val pairedDevices: StateFlow<List<BluetoothDevice>> = _pairedDevices
 
     //rtdb
     private val _liveData = MutableStateFlow<MeterLiveData?>(null)
@@ -124,6 +141,19 @@ class DetailGroupViewModel(private val user: FirebaseUser): ViewModel() {
         val masterRef = FirebaseDatabase.getInstance()
             .getReference(meterId)
         masterRef.child("ison").setValue(value)
+    }
+
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+    fun loadPairedDevices() {
+        if (bluetoothAdapter == null || !bluetoothAdapter.isEnabled) {
+            Log.d("BT", "EMPTY")
+            _pairedDevices.value = emptyList()
+            return
+        }
+
+        val devices = bluetoothAdapter.bondedDevices?.toList().orEmpty()
+        Log.d("BT", "$devices")
+        _pairedDevices.value = devices
     }
 
     override fun onCleared() {

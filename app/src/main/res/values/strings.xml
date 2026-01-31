@@ -28,6 +28,8 @@
     <string name="close">Tutup</string>
 
     <string name="add_smart_meter">Tambah Smart Meter</string>
+    <string name="conn_bluetooth">Pilih Bluetooth Smart Meter</string>
+    <string name="empty_bt_list">Data kosong, nyalakan bluetooth</string>
 
     <string name="detail_usage_report">Detail Laporan Penggunaan</string>
 
