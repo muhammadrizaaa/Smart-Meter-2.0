@@ -16,6 +16,7 @@ import org.riza0004.smartmeter20.ui.screen.detailgroup.KEY_NAME_GROUP
 import org.riza0004.smartmeter20.ui.screen.homescreen.HomeScreen
 import org.riza0004.smartmeter20.ui.screen.homescreen.MainViewModel
 import org.riza0004.smartmeter20.ui.screen.profilescreen.ProfileScreen
+import org.riza0004.smartmeter20.ui.screen.usagereportmain.METER_ID
 import org.riza0004.smartmeter20.ui.screen.usagereportmain.NAV_ID
 import org.riza0004.smartmeter20.ui.screen.usagereportmain.UsageReportMainScreen
 
@@ -43,14 +44,20 @@ fun SetupNavGraph(navHostController: NavHostController = rememberNavController()
         composable(
             route = Screen.UsageReportMainScreen.route,
             arguments = listOf(
-                navArgument(NAV_ID) {type = NavType.IntType}
+                navArgument(NAV_ID) {type = NavType.IntType},
+                navArgument(METER_ID){type = NavType.StringType},
+                navArgument(KEY_ID_GROUP) {type = NavType.StringType}
             )
         ){
             val id = it.arguments?.getInt(NAV_ID)?:0
+            val groupId = it.arguments?.getString(KEY_ID_GROUP)
+            val meterId = it.arguments?.getString(METER_ID)
             UsageReportMainScreen(
                 navHostController = navHostController,
                 userFlow = userFlow,
-                navId = id
+                navId = id,
+                groupId = groupId?:"",
+                meterId = meterId
             )
         }
         composable(

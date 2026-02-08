@@ -1,5 +1,6 @@
 package org.riza0004.smartmeter20.ui.component
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,11 +9,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,11 +27,17 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.riza0004.smartmeter20.R
+import org.riza0004.smartmeter20.dataclass.HistoryDataClass
+import org.riza0004.smartmeter20.dataclass.MeterLiveData
+import org.riza0004.smartmeter20.ui.screen.usagereportmain.toFormattedString
 
 @Composable
 fun DetailedUsageReport(
     modifier: Modifier = Modifier,
-    type: Int
+    type: Int,
+    onSwitch: () -> Unit,
+    liveData: MeterLiveData?,
+    listHistory: List<HistoryDataClass>
 ){
     val data = listOf(
         "Harian",
@@ -53,8 +63,9 @@ fun DetailedUsageReport(
             )
             if(type == 2){
                 Switch(
-                    checked = true,
+                    checked = liveData?.ison == 1L,
                     onCheckedChange = {
+                        onSwitch()
                     },
                     colors = SwitchDefaults.colors(
                         checkedIconColor = colorResource(R.color.white),
@@ -96,11 +107,11 @@ fun DetailedUsageReport(
                 ) {
                     Text(
                         modifier = Modifier.padding(end = 8.dp),
-                        text = stringResource(R.string.power, formatDecimal(20.toDouble())),
+                        text = stringResource(R.string.power, formatDecimal(liveData?.power?:0.0)),
                         style = MaterialTheme.typography.bodyMedium
                     )
                     Text(
-                        text = stringResource(R.string.current, formatDecimal(0.2)),
+                        text = stringResource(R.string.current, formatDecimal(liveData?.current?:0.0)),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
@@ -112,14 +123,19 @@ fun DetailedUsageReport(
                 ) {
                     Text(
                         modifier = Modifier.padding(end = 8.dp),
-                        text = stringResource(R.string.energy, formatDecimal(0.002)),
+                        text = stringResource(R.string.energy, formatDecimal(liveData?.energy?:0.0)),
                         style = MaterialTheme.typography.bodyMedium
                     )
                     Text(
-                        text = stringResource(R.string.voltage, formatDecimal(200.toDouble())),
+                        text = stringResource(R.string.voltage, formatDecimal(liveData?.voltage?:0.0)),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
+            }
+            LaunchedEffect(listHistory) {
+                Log.d(
+                    "LIST_HISTORY", "$listHistory"
+                )
             }
             Dropdown(
                 isExpanded = isExpanded,
@@ -137,5 +153,16 @@ fun DetailedUsageReport(
         CustomLineChart(
             steps = 9
         )
+        Column(
+            modifier = Modifier.verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+            horizontalAlignment = Alignment.Start
+        ) {
+            listHistory.forEach {
+                Text(
+                    text = "AMP: ${it.energy}, VOLT: ${it.voltage}, W: ${it.power}, KWH: ${it.energy}, t: ${it.timestamp?.toFormattedString()}"
+                )
+            }
+        }
     }
 }

@@ -130,7 +130,7 @@ fun HomeScreen(
                 ) {
                     UsageReport(
                         onUsageReportClick = {
-                            val route = Screen.UsageReportMainScreen.withData(0)
+                            val route = Screen.UsageReportMainScreen.withData(0, null, "")
                             navHostController.navigate(route)
                         }
                     )

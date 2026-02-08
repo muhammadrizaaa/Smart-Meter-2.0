@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -38,7 +38,7 @@ import org.riza0004.smartmeter20.ui.screen.detailgroup.DetailGroupViewModel
 fun SmartMeterList(
     viewModel: DetailGroupViewModel,
     modifier: Modifier = Modifier,
-    onCLick: (String) -> Unit,
+    onCLick: (Int) -> Unit,
     name: String
 ){
     val dataDropdown = listOf(
@@ -104,7 +104,7 @@ fun SmartMeterList(
                 verticalArrangement = Arrangement.spacedBy(4.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(viewModel.data){it->
+                itemsIndexed(viewModel.data){index, it->
                     viewModel.observeMeter("1")
                     val liveData by viewModel.liveData.collectAsState()
                     SmartMeterGridItem(
@@ -118,7 +118,7 @@ fun SmartMeterList(
                         current = liveData?.current?:0.0,
                         voltage = liveData?.voltage?:0.0,
                         onCLick = {
-                            onCLick("")
+                            onCLick(index)
                         },
                         onChecked = {
                             viewModel.setRelay(

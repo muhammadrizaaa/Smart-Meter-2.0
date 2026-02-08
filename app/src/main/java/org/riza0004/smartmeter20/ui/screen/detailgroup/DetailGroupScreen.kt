@@ -205,7 +205,7 @@ fun DetailGroupScreen(
                 ) {
                     UsageReport(
                         onUsageReportClick = {
-                            val route = Screen.UsageReportMainScreen.withData(1)
+                            val route = Screen.UsageReportMainScreen.withData(1, groupId = groupId, meterId = null)
                             navHostController.navigate(route)
                         }
                     )
@@ -213,7 +213,7 @@ fun DetailGroupScreen(
                         viewModel = viewModel,
                         name = groupName,
                         onCLick = {
-                            val route = Screen.UsageReportMainScreen.withData(2)
+                            val route = Screen.UsageReportMainScreen.withData(2, viewModel.dataId[it], groupId)
                             navHostController.navigate(route)
                         }
                     )
